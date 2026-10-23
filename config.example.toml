@@ -1,0 +1,52 @@
+# Private Media Captioner settings (example).
+# The real file lives in your app-data folder (Windows: %LOCALAPPDATA%\PrivateMediaCaptioner\config.toml)
+# and is written by `captioner setup`. No secrets ever belong here: keys and tokens go to the OS keyring.
+
+setup_completed = []
+
+[telegram]
+inbox_id = 0          # filled in by setup (the private Inbox channel)
+inbox_kind = "channel" # "channel" (only you are admin) or "group" (only your messages are used)
+vault_id = 0          # filled in by setup (the private Vault channel)
+owner_id = 0          # your Telegram user id, filled in by setup
+bot_id = 0
+owner_dm_ok = false   # true after you press /start in the helper bot chat
+
+[archive]
+root = ""             # empty = <app-data>/archive
+max_file_mb = 4096
+min_free_mb = 1024
+
+[vault]
+marker = "#vault"
+aliases = ["#private"]  # set to [] to disable the #private alias
+
+[caption]
+language = "English"
+include_location = false   # GPS coordinates from photo metadata; never online lookups
+vision_model = "gemma3:4b"
+text_model = "gemma3:4b"
+whisper_model = "small"
+ollama_url = "http://127.0.0.1:11434"  # must be local
+model_timeout_s = 300
+max_frames = 16
+frame_interval_s = 10
+max_rewrites = 5
+album_settle_seconds = 30
+write_metadata_copy = true  # needs ExifTool; the original is never modified
+
+[youtube]
+enabled = false
+client_secret_path = ""
+chunk_mb = 8
+
+[backup]
+enabled = false
+kind = "path"   # "path" (folder or external drive) or "rclone"
+target = ""
+
+[run]
+scan_interval_s = 60
+max_attempts = 5
+report_interval_days = 7
+inactivity_days = 3

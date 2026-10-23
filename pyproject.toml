@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "private-media-captioner"
+version = "0.1.0"
+description = "Local-first archive and memory captions for your Telegram photos and videos, with private YouTube uploads."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [{ name = "VARSHITH707" }]
+dependencies = [
+    "telethon>=1.45,<2",
+    "typer>=0.27,<1",
+    "keyring>=25.7,<26",
+    "pillow>=13,<14",
+    "google-api-python-client>=2.201,<3",
+    "google-auth>=2.62,<3",
+    "google-auth-httplib2>=0.2,<1",
+    "google-auth-oauthlib>=1.5,<2",
+]
+
+[project.optional-dependencies]
+whisper = ["faster-whisper>=1.2.1,<2"]
+dev = ["pytest>=9,<10", "pytest-cov>=6,<8", "ruff>=0.17,<1", "mypy>=2.4,<3", "build>=1.2,<2"]
+
+[project.scripts]
+captioner = "captioner.cli:app"
+
+[tool.setuptools]
+packages = ["captioner"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = [
+    "local_tools: needs ffmpeg/ExifTool/Ollama installed locally (skipped when missing)",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "S", "UP"]
+ignore = ["S101", "S603", "S607", "B008"]  # B008: Typer declares options as argument defaults
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106", "S108"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+warn_unused_ignores = true
